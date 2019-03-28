@@ -22,6 +22,10 @@ exports.up = function(knex, Promise) {
         .onDelete("CASCADE")
         .onUpdate("CASCADE");
     })
+    .createTable("ingredients", table => {
+      table.increments();
+      table.string("name", 128).notNullable();
+    })
     .createTable("recipe_ingredients", table => {
       table.increments();
       table
@@ -40,13 +44,6 @@ exports.up = function(knex, Promise) {
         .inTable("ingredients")
         .onDelete("CASCADE")
         .onUpdate("CASCADE");
-    })
-    .createTable("ingredients", table => {
-      table.increments();
-      table
-        .string("name", 128)
-        .notNullable()
-        .unique();
     });
 };
 
