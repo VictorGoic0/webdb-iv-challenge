@@ -6,6 +6,16 @@
     "sqlite3": "^4.0.6"
   },
   "devDependencies": {
+    "knex-cleaner": "^1.1.4",
     "nodemon": "^1.18.10"
+  },
+  "name": "webdb-iv-challenge",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/VictorGoic0/webdb-iv-challenge.git",
+  "author": "VictorGoic0 <vgoico000@citymail.cuny.edu>",
+  "license": "MIT",
+  "scripts": {
+    "server": "nodemon"
   }
 }
