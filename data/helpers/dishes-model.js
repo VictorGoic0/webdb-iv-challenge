@@ -8,22 +8,24 @@ module.exports = {
   update
 };
 
-function find() {
-  return db("dishes");
+async function find() {
+  const dishes = await db("dishes");
+  return dishes;
 }
 
-function findById(id) {
-  return db("dishes")
+async function findById(id) {
+  const dish = db("dishes")
     .where({ id })
     .first();
+  return dish;
 }
 
-function create(item) {
-  return db("dishes")
-    .insert(item)
-    .then(([id]) => {
-      return findById(id);
-    });
+async function create(item) {
+  const [id] = await db("dishes").insert(item);
+  if (id) {
+    const dish = await findById(id);
+    return dish;
+  }
 }
 
 async function remove(id) {
@@ -32,7 +34,9 @@ async function remove(id) {
     const deleted = await db("dishes")
       .where({ id })
       .del();
-    return dish;
+    if (deleted) {
+      return dish;
+    }
   }
 }
 
