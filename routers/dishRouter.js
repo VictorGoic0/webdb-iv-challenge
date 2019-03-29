@@ -39,7 +39,7 @@ router.post("/", async (req, res) => {
     try {
       const newDish = await db.create(dish);
       if (newDish) {
-        res.status(201).json(newdish);
+        res.status(201).json(newDish);
       }
     } catch (error) {
       res
@@ -52,14 +52,9 @@ router.post("/", async (req, res) => {
 router.delete("/:id", async (req, res) => {
   const { id } = req.params;
   try {
-    const dish = await db.delete(id);
+    const dish = await db.remove(id);
     if (dish) {
-      const deleted = await db("dishes")
-        .where({ id })
-        .del();
-      if (deleted) {
-        res.status(200).json(dish);
-      }
+      res.status(200).json(dish);
     } else {
       res
         .status(404)

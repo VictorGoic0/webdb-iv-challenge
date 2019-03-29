@@ -26,14 +26,14 @@ function create(item) {
     });
 }
 
-function remove(id) {
-  return db("dishes")
-    .where({ id })
-    .del()
-    .then(res => {
-      console.log(res);
-      return res;
-    });
+async function remove(id) {
+  const dish = await findById(id);
+  if (dish) {
+    const deleted = await db("dishes")
+      .where({ id })
+      .del();
+    return dish;
+  }
 }
 
 function update(item, id) {}
