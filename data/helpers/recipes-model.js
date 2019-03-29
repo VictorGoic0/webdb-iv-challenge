@@ -17,10 +17,30 @@ async function find() {
 
 async function findById(id) {
   const recipe = await db("recipes")
-    .select({ id: "recipes.id", name: "recipes.name", dish: "dishes.name" })
+    .select({
+      id: "recipes.id",
+      name: "recipes.name",
+      dish: "dishes.name"
+    })
     .innerJoin("dishes", "dishes.id", "recipes.dish_id")
-    .where({ dish_id: id })
+    .where({ "recipes.id": id })
     .first();
+  recipe.ingredients = await db("recipes")
+    .select({
+      ingredients: "ingredients.name"
+    })
+    .innerJoin(
+      "recipe_ingredients",
+      "recipe_ingredients.recipe_id",
+      "recipes.id"
+    )
+    .innerJoin(
+      "ingredients",
+      "ingredients.id",
+      "recipe_ingredients.ingredients_id"
+    )
+    .where({ "recipes.id": id })
+    .pluck("ingredients.name");
   return recipe;
 }
 
