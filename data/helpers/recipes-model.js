@@ -9,13 +9,17 @@ module.exports = {
 };
 
 async function find() {
-  const recipes = await db("recipes");
+  const recipes = await db("recipes")
+    .select({ id: "recipes.id", name: "recipes.name", dish: "dishes.name" })
+    .innerJoin("dishes", "dishes.id", "recipes.dish_id");
   return recipes;
 }
 
 async function findById(id) {
-  const recipe = db("recipes")
-    .where({ id })
+  const recipe = await db("recipes")
+    .select({ id: "recipes.id", name: "recipes.name", dish: "dishes.name" })
+    .innerJoin("dishes", "dishes.id", "recipes.dish_id")
+    .where({ dish_id: id })
     .first();
   return recipe;
 }
